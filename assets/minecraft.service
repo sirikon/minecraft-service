@@ -17,7 +17,7 @@ ExecStart=${MINECRAFT_SERVICE_ROOT}/../scripts/run.sh
 ; Use graceful shutdown with a reasonable timeout
 KillMode=mixed
 KillSignal=SIGQUIT
-TimeoutStopSec=5s
+TimeoutStopSec=60s
 
 ; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.
 LimitNOFILE=1048576
