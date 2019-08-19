@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 set -e
-cd "$(dirname "${BASH_SOURCE[0]}")"/../server
+source "$(dirname "${BASH_SOURCE[0]}")"/internal/env.sh
 
-set -o allexport
-source ../.env
-set +o allexport
+check-required-variable "MINECRAFT_SERVICE_JAVA_RAM"
+check-required-variable "MINECRAFT_SERVICE_BINARY_NAME"
+
+cd ./server
 
 java \
     -Xms${MINECRAFT_SERVICE_JAVA_RAM} \

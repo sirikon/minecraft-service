@@ -5,19 +5,19 @@ After=network-online.target
 Wants=network-online.target systemd-networkd-wait-online.service
 
 [Service]
-Restart=on-abnormal
+Restart=no
 
 ; User and group the process will run as.
 User=${MINECRAFT_SERVICE_USER}
 Group=${MINECRAFT_SERVICE_GROUP}
 
 WorkingDirectory=${MINECRAFT_SERVICE_ROOT}
-ExecStart=${MINECRAFT_SERVICE_ROOT}/../scripts/run.sh
+ExecStart=${MINECRAFT_SERVICE_ROOT}/scripts/start.sh
+ExecStop=${MINECRAFT_SERVICE_ROOT}/scripts/stop.sh
 
 ; Use graceful shutdown with a reasonable timeout
-KillMode=mixed
-KillSignal=SIGQUIT
-TimeoutStopSec=60s
+KillMode=none
+SuccessExitStatus=0 1
 
 ; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.
 LimitNOFILE=1048576
@@ -33,7 +33,7 @@ ProtectHome=true
 ProtectSystem=full
 ; … except /etc/ssl/caddy, because we want Letsencrypt-certificates there.
 ;   This merely retains r/w access rights, it does not add any new. Must still be writable on the host!
-ReadWritePaths=${MINECRAFT_SERVICE_ROOT}
+ReadWritePaths=${MINECRAFT_SERVICE_ROOT}/server
 
 [Install]
 WantedBy=multi-user.target
